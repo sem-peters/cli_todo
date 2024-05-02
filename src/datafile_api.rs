@@ -28,7 +28,12 @@ fn ensure_file_exists(read: bool, write: bool, truncate: bool) -> Result<File, S
                 }
             }
 
-            return match File::options().read(read).write(write).truncate(truncate).open(data_file) {
+            return match File::options()
+                .read(read)
+                .write(write)
+                .truncate(truncate)
+                .open(data_file)
+            {
                 Ok(file) => Ok(file),
                 Err(e) => return Err(e.to_string()),
             };
@@ -40,7 +45,8 @@ fn ensure_file_exists(read: bool, write: bool, truncate: bool) -> Result<File, S
 }
 
 pub fn get_todos() -> Vec<String> {
-    let mut data_file = ensure_file_exists(true, false, false).expect("Error: could not create data file");
+    let mut data_file =
+        ensure_file_exists(true, false, false).expect("Error: could not create data file");
 
     let mut contents: String = String::new();
     data_file
@@ -67,10 +73,31 @@ pub fn add_todos(todos: Vec<String>) {
     data.push('\n');
     data.push_str(args_data.as_str());
 
-    let mut data_file = ensure_file_exists(true, true, true).expect("Error: could not create data file");
+    let mut data_file =
+        ensure_file_exists(true, true, true).expect("Error: could not create data file");
     match data_file.write(data.as_bytes()) {
         Ok(_) => {
             println!("Successfully added todo's");
+        }
+        Err(e) => println!("Error: Could not write to file: {}", e.to_string()),
+    }
+}
+
+pub fn delete_todos(todos: Vec<String>) {
+    let data = get_todos();
+    let mut new_data: Vec<String> = Vec::new();
+
+    for (i, todo) in data.iter().enumerate() {
+        if !todos.contains(&i.to_string()) {
+            new_data.push(todo.to_string())
+        }
+    }
+
+    let mut data_file =
+        ensure_file_exists(true, true, true).expect("Error: could not create data file");
+    match data_file.write(new_data.join("\n").as_bytes()) {
+        Ok(_) => {
+            println!("Successfully deleted todo's");
         }
         Err(e) => println!("Error: Could not write to file: {}", e.to_string()),
     }

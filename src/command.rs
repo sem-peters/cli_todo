@@ -83,7 +83,14 @@ fn run_add_todo(args: Vec<String>) {
     datafile_api::add_todos(args);
 }
 
-fn run_delete_todos(args: Vec<String>) {}
+fn run_delete_todos(args: Vec<String>) {
+    if args.len() < 1 {
+        println!("Error: Please provide one or multiple numbers by which to delete");
+        return;
+    }
+
+    datafile_api::delete_todos(args);
+}
 
 fn run_finish_todos(args: Vec<String>) {}
 
