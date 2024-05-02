@@ -1,4 +1,4 @@
-use crate::datafile_api::{self, get_todos};
+use crate::datafile_api::{self};
 
 pub enum CommandType {
     Help,
