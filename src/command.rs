@@ -1,10 +1,5 @@
 use crate::datafile_api::{self, get_todos};
 
-// -h, --help     Show this help message and exit
-// -l, --list     List all todos
-// -a, --add      Add a new todo
-// -d, --delete   Delete a todo
-// -f, --finish   Finish a todo
 pub enum CommandType {
     Help,
     ListTodo,
@@ -12,11 +7,6 @@ pub enum CommandType {
     DeleteTodo,
     FinishTodo,
     Unknown,
-}
-
-pub struct Command {
-    command_type: CommandType,
-    args: Vec<String>,
 }
 
 impl CommandType {
@@ -66,7 +56,10 @@ fn run_list_todo() {
     let mut res = String::from("Todos:\n"); 
 
     for (i, todo) in todos.iter().enumerate() {
-        res.push_str(format!("{} {}\n", i, todo).as_str());
+
+        let todo_display_value = todo.replace("%FINISHED%", '\u{2705}'.to_string().as_str());
+
+        res.push_str(format!("{} {}\n", i, todo_display_value).as_str());
     }
 
     res.push_str("\n");
@@ -92,7 +85,14 @@ fn run_delete_todos(args: Vec<String>) {
     datafile_api::delete_todos(args);
 }
 
-fn run_finish_todos(args: Vec<String>) {}
+fn run_finish_todos(args: Vec<String>) {
+    if args.len() < 1 {
+        println!("Error: Please provide one or multiple numbers for todos to finish");
+        return;
+    }
+
+    datafile_api::finish_todos(args);
+}
 
 pub fn run(command_type: CommandType, args: Vec<String>) {
     match command_type {

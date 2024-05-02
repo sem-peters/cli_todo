@@ -76,9 +76,7 @@ pub fn add_todos(todos: Vec<String>) {
     let mut data_file =
         ensure_file_exists(true, true, true).expect("Error: could not create data file");
     match data_file.write(data.as_bytes()) {
-        Ok(_) => {
-            println!("Successfully added todo's");
-        }
+        Ok(_) => {}
         Err(e) => println!("Error: Could not write to file: {}", e.to_string()),
     }
 }
@@ -96,9 +94,31 @@ pub fn delete_todos(todos: Vec<String>) {
     let mut data_file =
         ensure_file_exists(true, true, true).expect("Error: could not create data file");
     match data_file.write(new_data.join("\n").as_bytes()) {
-        Ok(_) => {
-            println!("Successfully deleted todo's");
+        Ok(_) => {}
+        Err(e) => println!("Error: Could not write to file: {}", e.to_string()),
+    }
+}
+
+pub fn finish_todos(todos: Vec<String>) {
+    let data = get_todos();
+    let mut new_data: Vec<String> = Vec::new();
+
+    for (i, todo) in data.iter().enumerate() {
+        if todos.contains(&i.to_string()) {
+            if todo.ends_with("%FINISHED%") {
+                new_data.push(todo.to_string().replace("%FINISHED", "")); // Remove finished mark
+            } else {
+                new_data.push(todo.to_string() + "%FINISHED%"); // Add finished mark
+            }
+        } else {
+            new_data.push(todo.to_string());
         }
+    }
+
+    let mut data_file =
+        ensure_file_exists(true, true, true).expect("Error: could not create data file");
+    match data_file.write(new_data.join("\n").as_bytes()) {
+        Ok(_) => {}
         Err(e) => println!("Error: Could not write to file: {}", e.to_string()),
     }
 }
