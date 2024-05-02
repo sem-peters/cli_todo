@@ -12,7 +12,7 @@ todo <command> <arguments...>
 Options:
 -h, --help     Show this help message and exit
 -l, --list     List all todos
--a, --add      Add a new todo
+-c, --create   Create a new todo
 -d, --delete   Delete a todo
 -f, --finish   Finish a todo
 

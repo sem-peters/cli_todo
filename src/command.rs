@@ -16,8 +16,8 @@ impl CommandType {
             "--help" => CommandType::Help,
             "-l" => CommandType::ListTodo,
             "--list" => CommandType::ListTodo,
-            "-a" => CommandType::AddTodo,
-            "--add" => CommandType::AddTodo,
+            "-c" => CommandType::AddTodo,
+            "--create" => CommandType::AddTodo,
             "-d" => CommandType::DeleteTodo,
             "--delete" => CommandType::DeleteTodo,
             "-f" => CommandType::FinishTodo,
@@ -36,13 +36,13 @@ Usage: todo [command] [arguments]
 Commands:
   -h, --help     Show this help message and exit
   -l, --list     List all todos
-  -a, --add      Add a new todo
+  -c, --create   Create a new todo
   -d, --delete   Delete a todo
   -f, --finish   Finish a todo
 
 Examples:
   todo -l
-  todo -a 'Buy milk'
+  todo -c 'Buy milk'
   todo -d 1
   todo -f 1
 
