@@ -80,13 +80,12 @@ fn run_add_todo(args: Vec<String>) {
         return;
     }
 
-    datafile_api::add_todo(&args);
-
+    datafile_api::add_todos(args);
 }
 
-fn runDeleteTodo(args: Vec<String>) {}
+fn run_delete_todos(args: Vec<String>) {}
 
-fn runFinishTodo(args: Vec<String>) {}
+fn run_finish_todos(args: Vec<String>) {}
 
 pub fn run(command_type: CommandType, args: Vec<String>) {
     match command_type {
@@ -100,10 +99,10 @@ pub fn run(command_type: CommandType, args: Vec<String>) {
             run_add_todo(args);
         }
         CommandType::DeleteTodo => {
-            runDeleteTodo(args);
+            run_delete_todos(args);
         }
         CommandType::FinishTodo => {
-            runFinishTodo(args);
+            run_finish_todos(args);
         }
 
         _ => {

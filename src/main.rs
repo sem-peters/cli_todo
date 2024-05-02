@@ -23,6 +23,7 @@ fn main() {
 
     let arguments: Vec<String> = args
         .iter()
+        .skip(1) // Don't use the filepath as an argument
         .filter(|arg| !arg.starts_with("-"))
         .map(|arg| arg.to_owned())
         .collect();
