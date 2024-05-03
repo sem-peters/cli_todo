@@ -53,13 +53,16 @@ Examples:
 fn run_list_todo() {
     let todos = datafile_api::get_todos();
 
-    let mut res = String::from("Todos:\n"); 
+    let mut res = String::from("Todos:\n\n");
 
     for (i, todo) in todos.iter().enumerate() {
+        let todo_display_value = todo.clone().replace("%FINISHED%", "");
+        let finished_indicator = match todo.contains("%FINISHED") {
+            true => '\u{2705}',
+            false => '\u{274C}',
+        };
 
-        let todo_display_value = todo.replace("%FINISHED%", '\u{2705}'.to_string().as_str());
-
-        res.push_str(format!("{} {}\n", i, todo_display_value).as_str());
+        res.push_str(format!("{} {}\t{}\n", i, finished_indicator, todo_display_value).as_str());
     }
 
     res.push_str("\n");
