@@ -55,6 +55,7 @@ fn run_list_todo() {
 
     let mut res = String::from("Todos:\n\n");
 
+    let index_width = todos.len().to_string().chars().count();
     for (i, todo) in todos.iter().enumerate() {
         let todo_display_value = todo.clone().replace("%FINISHED%", "");
         let finished_indicator = match todo.contains("%FINISHED") {
@@ -62,7 +63,7 @@ fn run_list_todo() {
             false => '\u{274C}',
         };
 
-        res.push_str(format!("{} {}\t{}\n", i, finished_indicator, todo_display_value).as_str());
+        res.push_str(format!("{:index_width$} {}\t{}\n", i, finished_indicator, todo_display_value).as_str());
     }
 
     res.push_str("\n");
