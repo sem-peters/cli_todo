@@ -19,10 +19,23 @@ Options:
 ```
 
 ## Installation
-TO DO! (pun intended)
-For now,
 
+### Download a binary
+If you're on Windows x86_64, or Linux x86_64, you can download the latest binary from the [GitHub releases](https://github.com/sem-peters/cli_todo/releases).
+Rename the binary to 'todo' (or 'todo.exe') and modify your PATH to make sure it can be found from the terminal.
+
+### Build from source (recommended)
+Building from source is the recommended way to install. Make sure you have cargo and rust installed.
+
+Linux / MacOS:
 1. git clone https://github.com/sem-peters/cli_todo.git
 2. cd cli_todo
-3. cargo build (make sure you have rust-upped)
-4. (sudo) mv target/release/cli_todo /usr/local/bin/todo
+3. cargo build --release
+4. sudo mv target/release/cli_todo /usr/local/bin/todo
+
+Windows:
+1. git clone https://github.com/sem-peters/cli_todo.git
+2. cd cli_todo
+3. cargo build --release
+
+Now, make sure you either add the target\release directory to the PATH or move the binary into a directory that's in your PATH.
