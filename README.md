@@ -18,6 +18,9 @@ Options:
 
 ```
 
+![image](https://github.com/sem-peters/cli_todo/assets/57051686/77284313-2c8d-4544-a093-340014bdd67e)
+
+
 ## Installation
 
 ### Download a binary
