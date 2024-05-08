@@ -1,4 +1,9 @@
 # Changelog
 
+## 0.2.0
+08-05-2024
+
+- #1  Ensure correct placing of the 'finished' indicator next to the index
+
 ## 0.1.0
 - Initial release
