@@ -6,6 +6,7 @@ pub enum CommandType {
     AddTodo,
     DeleteTodo,
     FinishTodo,
+    MoveTodo,
     Unknown,
 }
 
@@ -22,6 +23,8 @@ impl CommandType {
             "--delete" => CommandType::DeleteTodo,
             "-f" => CommandType::FinishTodo,
             "--finish" => CommandType::FinishTodo,
+            "-m" => CommandType::MoveTodo,
+            "--move" => CommandType::MoveTodo,
             _ => CommandType::Unknown,
         };
     }
@@ -39,12 +42,14 @@ Commands:
   -c, --create   Create a new todo
   -d, --delete   Delete a todo
   -f, --finish   Finish a todo
+  -m, --move     Move a todo
 
 Examples:
   todo -l
   todo -c 'Buy milk'
   todo -d 1
   todo -f 1
+  todo -m 3 5
 
 ";
     println!("{}", help_msg);
@@ -98,6 +103,15 @@ fn run_finish_todos(args: Vec<String>) {
     datafile_api::finish_todos(args);
 }
 
+fn run_move_todo(args: Vec<String>) {
+    if args.len() != 2 {
+        println!("Error: Please provide two numbers, the source and destination");
+        return;
+    }
+
+    datafile_api::move_todos(args);
+}
+
 pub fn run(command_type: CommandType, args: Vec<String>) {
     match command_type {
         CommandType::Help => {
@@ -115,7 +129,9 @@ pub fn run(command_type: CommandType, args: Vec<String>) {
         CommandType::FinishTodo => {
             run_finish_todos(args);
         }
-
+        CommandType::MoveTodo => {
+            run_move_todo(args);
+        }
         _ => {
             println!("Error: Invalid command");
             println!("Use -h or --help for help");
