@@ -15,6 +15,7 @@ Options:
 -c, --create   Create a new todo
 -d, --delete   Delete a todo
 -f, --finish   Finish a todo
+-m, --move     Move a todo
 
 ```
 

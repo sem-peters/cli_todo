@@ -122,3 +122,40 @@ pub fn finish_todos(todos: Vec<String>) {
         Err(e) => println!("Error: Could not write to file: {}", e.to_string()),
     }
 }
+
+pub fn move_todos(args: Vec<String>) {
+    let mut data = get_todos();
+
+    let mut src = 0;
+    let mut dest = 0;
+    args.get(0).map(|arg| {
+        src = arg.parse().expect(format!("Error: {} is not a valid position", arg).as_str());
+    }).expect("Error: Please provide a number as the first argument");
+
+    args.get(1).map(|arg| {
+        dest = arg.parse().expect(format!("Error: {} is not a valid position", arg).as_str());
+    }).expect("Error: Please provide a number as the second argument");
+
+    if src == dest {
+        return;
+    }
+
+    let src_value = data.get(src).expect("Error: Source position does not exist").clone();
+
+    if dest >= data.len() {
+        data.push(src_value);
+        data.remove(src);
+    } else  {
+        data.remove(src);
+        data.insert(dest, src_value);
+    }
+
+
+    let mut data_file =
+        ensure_file_exists(true, true, true).expect("Error: could not create data file");
+    match data_file.write(data.join("\n").as_bytes()) {
+        Ok(_) => {}
+        Err(e) => println!("Error: Could not write to file: {}", e.to_string()),
+    }
+}
+
