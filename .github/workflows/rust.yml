@@ -18,7 +18,7 @@ jobs:
     - name: Run tests
       run: cargo test --verbose
     - name: Move artifacts
-      run: mkdir staging && cp target/cli_todo staging
+      run: mkdir staging && cp target/release/cli_todo staging
     - uses: actions/upload-artifact@v4
       with:
         name: Package
@@ -32,7 +32,7 @@ jobs:
     - name: Run tests
       run: cargo test --verbose
     - name: Move artifacts
-      run: mkdir staging && Copy-Item target\cli_todo.exe staging
+      run: mkdir staging && Copy-Item target\release\cli_todo.exe staging
     - uses: actions/upload-artifact@v4
       with:
         name: Package
