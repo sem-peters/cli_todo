@@ -21,8 +21,8 @@ jobs:
       run: mkdir staging && cp target/release/cli_todo staging
     - uses: actions/upload-artifact@v4
       with:
-        name: Package
-        path: staging
+        name: linux
+        path: staging/cli_todo
   build-windows:
     runs-on: windows-latest
     steps:
@@ -35,5 +35,5 @@ jobs:
       run: mkdir staging && Copy-Item target\release\cli_todo.exe staging
     - uses: actions/upload-artifact@v4
       with:
-        name: Package
-        path: staging
+        name: windows
+        path: staging\cli_todo.exe
