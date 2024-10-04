@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1
+04-10-2024
+
+- #5 - Fix: unfinishing a todo leaves a percent sign at the end
+
 ## 0.3.0
 11-06-2024
 

@@ -106,7 +106,7 @@ pub fn finish_todos(todos: Vec<String>) {
     for (i, todo) in data.iter().enumerate() {
         if todos.contains(&i.to_string()) {
             if todo.ends_with("%FINISHED%") {
-                new_data.push(todo.to_string().replace("%FINISHED", "")); // Remove finished mark
+                new_data.push(todo.to_string().replace("%FINISHED%", "")); // Remove finished mark
             } else {
                 new_data.push(todo.to_string() + "%FINISHED%"); // Add finished mark
             }
