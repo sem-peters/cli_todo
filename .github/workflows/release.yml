@@ -50,7 +50,7 @@ jobs:
           path: ./binaries
 
       - name: LS
-        run: ls -la
+        run: ls -la binaries
 
       - name: Release
         uses: softprops/action-gh-release@v2
