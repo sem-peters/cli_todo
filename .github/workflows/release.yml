@@ -25,10 +25,12 @@ jobs:
         run: cargo build --release --target ${{ matrix.target }}
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}-binary
           path: target/${{ matrix.target }}/release/
+          if-no-files-found: error
+          retention-days: 1
 
   create-release:
     needs: build
@@ -41,31 +43,17 @@ jobs:
         id: cargo-version
         run: echo "::set-output name=version::$(grep -m 1 '^version = ' Cargo.toml | sed 's/version = \"\(.*\)\"/\1/')"
 
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.cargo-version.outputs.version }}
-          release_name: Release ${{ steps.cargo-version.outputs.version }}
-          draft: false
-          prerelease: false
-          body: |
-            # Changelog
-            $(cat CHANGELOG.md)
 
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.target }}-binary
           path: ./binaries
 
-      - name: Upload assets to Release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ./binaries
-          asset_name: ${{ matrix.target }}-binary
-          asset_content_type: application/octet-stream
+          body: |
+            # Changelog
+            $(cat CHANGELOG.md)
+          files:  binaries
