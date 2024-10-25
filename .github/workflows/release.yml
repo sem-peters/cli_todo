@@ -53,8 +53,8 @@ jobs:
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.2
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ env.PROJECT_VERSION }}
-          github_token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -64,4 +64,4 @@ jobs:
             $(cat CHANGELOG.md)
           files:  binaries
           tag_name: ${{ env.PROJECT_VERSION }}
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
