@@ -49,15 +49,12 @@ jobs:
           pattern: '*-binary'
           path: ./binaries
 
-      - name: LS
-        run: ls -la binaries/*
-
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           body_path: CHANGELOG.md
           files: |
-            binaries/x86_64-unknown-linux-gnu-binary/x86_64-unknown-linux-gnu-binary
-            binaries/x86_64-pc-windows-msvc-binary/x86_64-pc-windows-msvc-binary
+            binaries/x86_64-unknown-linux-gnu-binary/cli_todo
+            binaries/x86_64-pc-windows-msvc-binary/cli_todo.exe
           tag_name: ${{ env.PROJECT_VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
