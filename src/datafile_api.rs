@@ -5,6 +5,7 @@
 use std::{
     fs::File,
     io::{Read, Write},
+    process,
 };
 
 fn ensure_file_exists(read: bool, write: bool, truncate: bool) -> Result<File, String> {
@@ -81,6 +82,59 @@ pub fn add_todos(todos: Vec<String>) {
     }
 }
 
+pub fn edit_todos(args: Vec<String>) {
+    let mut change_statements: Vec<(u16, String)> = Vec::new();
+
+    let mut i: usize = 0;
+    let mut todo_index: u16 = 0;
+
+    while i < args.len() {
+        if i % 2 == 0 {
+            todo_index = args
+                .get(i)
+                .expect(format!("Error: argument {} not available", i).as_str())
+                .parse()
+                .expect(
+                    format!(
+                        "Error: argument {} should have been a positive number between 0 and 65535",
+                        i
+                    )
+                    .as_str(),
+                );
+        } else {
+            let arg = args
+                .get(i)
+                .expect(format!("Error: argument {} not available", i).as_str())
+                .to_string();
+            change_statements.push((todo_index, arg));
+        }
+
+        i += 1;
+    }
+
+    let mut data: Vec<String> = get_todos();
+    change_statements.into_iter().for_each(|change| {
+        let index: usize = change.0.into();
+        let new_value: String = change.1;
+        if data.len() - 1 < index {
+            println!(
+                "Given positional argument {} does not point to a todo!",
+                index
+            );
+            process::exit(1);
+        }
+
+        data[index] = new_value;
+    });
+
+    let mut data_file =
+        ensure_file_exists(true, true, true).expect("Error: could not create data file");
+    match data_file.write(data.join("\n").as_bytes()) {
+        Ok(_) => {}
+        Err(e) => println!("Error: could not write to file: {}", e.to_string()),
+    }
+}
+
 pub fn delete_todos(todos: Vec<String>) {
     let data = get_todos();
     let mut new_data: Vec<String> = Vec::new();
@@ -128,28 +182,38 @@ pub fn move_todos(args: Vec<String>) {
 
     let mut src = 0;
     let mut dest = 0;
-    args.get(0).map(|arg| {
-        src = arg.parse().expect(format!("Error: {} is not a valid position", arg).as_str());
-    }).expect("Error: Please provide a number as the first argument");
+    args.get(0)
+        .map(|arg| {
+            src = arg
+                .parse()
+                .expect(format!("Error: {} is not a valid position", arg).as_str());
+        })
+        .expect("Error: Please provide a number as the first argument");
 
-    args.get(1).map(|arg| {
-        dest = arg.parse().expect(format!("Error: {} is not a valid position", arg).as_str());
-    }).expect("Error: Please provide a number as the second argument");
+    args.get(1)
+        .map(|arg| {
+            dest = arg
+                .parse()
+                .expect(format!("Error: {} is not a valid position", arg).as_str());
+        })
+        .expect("Error: Please provide a number as the second argument");
 
     if src == dest {
         return;
     }
 
-    let src_value = data.get(src).expect("Error: Source position does not exist").clone();
+    let src_value = data
+        .get(src)
+        .expect("Error: Source position does not exist")
+        .clone();
 
     if dest >= data.len() {
         data.push(src_value);
         data.remove(src);
-    } else  {
+    } else {
         data.remove(src);
         data.insert(dest, src_value);
     }
-
 
     let mut data_file =
         ensure_file_exists(true, true, true).expect("Error: could not create data file");
@@ -158,4 +222,3 @@ pub fn move_todos(args: Vec<String>) {
         Err(e) => println!("Error: Could not write to file: {}", e.to_string()),
     }
 }
-
