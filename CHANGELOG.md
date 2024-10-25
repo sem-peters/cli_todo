@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0
+25-10-2024
+
+- #7 - Feature: Add an 'edit' command to modify todo content
+
 ## 0.3.1
 04-10-2024
 
