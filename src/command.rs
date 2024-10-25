@@ -4,6 +4,7 @@ pub enum CommandType {
     Help,
     ListTodo,
     AddTodo,
+    EditTodo,
     DeleteTodo,
     FinishTodo,
     MoveTodo,
@@ -19,6 +20,8 @@ impl CommandType {
             "--list" => CommandType::ListTodo,
             "-c" => CommandType::AddTodo,
             "--create" => CommandType::AddTodo,
+            "-e" => CommandType::EditTodo,
+            "--edit" => CommandType::EditTodo,
             "-d" => CommandType::DeleteTodo,
             "--delete" => CommandType::DeleteTodo,
             "-f" => CommandType::FinishTodo,
@@ -40,6 +43,7 @@ Commands:
   -h, --help     Show this help message and exit
   -l, --list     List all todos
   -c, --create   Create a new todo
+  -e, --edit     Edit a todo
   -d, --delete   Delete a todo
   -f, --finish   Finish a todo
   -m, --move     Move a todo
@@ -47,6 +51,7 @@ Commands:
 Examples:
   todo -l
   todo -c 'Buy milk'
+  todo -e 0 '[Groceries] Buy milk'
   todo -d 1
   todo -f 1
   todo -m 3 5
@@ -83,6 +88,15 @@ fn run_add_todo(args: Vec<String>) {
     }
 
     datafile_api::add_todos(args);
+}
+
+fn run_edit_todo(args: Vec<String>) {
+    if args.len() < 2 || args.len() % 2 != 0  {
+        println!("Error: Please provide an index to edit and a new value to set it to.");
+        return;
+    }
+
+    datafile_api::edit_todos(args);
 }
 
 fn run_delete_todos(args: Vec<String>) {
@@ -131,6 +145,9 @@ pub fn run(command_type: CommandType, args: Vec<String>) {
         }
         CommandType::MoveTodo => {
             run_move_todo(args);
+        }
+        CommandType::EditTodo => {
+            run_edit_todo(args);
         }
         _ => {
             println!("Error: Invalid command");
