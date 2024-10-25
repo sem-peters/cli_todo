@@ -57,7 +57,7 @@ jobs:
         with:
           body_path: CHANGELOG.md
           files: |
-            binaries/x86_64-unknown-linux-gnu-binary
-            binaries/x86_64-pc-windows-msvc-binary
+            binaries/x86_64-unknown-linux-gnu-binary/x86_64-unknown-linux-gnu-binary
+            binaries/x86_64-pc-windows-msvc-binary/x86_64-pc-windows-msvc-binary
           tag_name: ${{ env.PROJECT_VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
