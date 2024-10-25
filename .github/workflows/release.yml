@@ -54,7 +54,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.2
         with:
           custom_tag: ${{ env.PROJECT_VERSION }}
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          github_token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
 
       - name: Release
         uses: softprops/action-gh-release@v2
